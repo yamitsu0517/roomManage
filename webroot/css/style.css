@@ -1,0 +1,248 @@
+@charset "utf8";
+.header-top {
+	margin:0px;
+	border: 1px paleturquoise solid;
+	background-color: powderblue;
+}
+
+.header {
+	float : left;
+}
+
+.navbar-text {
+	float : left;
+	margin-left : 0px;
+}
+.col-sm-10 {
+	/* background-image: url("../img/background.img"); */
+
+	/* 画像を常に天地左右の中央に配置 */
+	background-position: center center;
+   
+	/* 画像をタイル状に繰り返し表示しない */
+	background-repeat: no-repeat;
+	 
+	/* コンテンツの高さが画像の高さより大きい時、動かないように固定 */
+	background-attachment: fixed;
+	 
+	/* 表示するコンテナの大きさに基づいて、背景画像を調整 */
+	background-size: cover;
+	 
+	/* 背景画像が読み込まれる前に表示される背景のカラー */
+	background-color: #464646;
+	/* 透かせる */
+	opacity: 0.1;
+}
+
+.main {
+    padding : 20px 20px;
+	background-color : #fff;
+	opacity: 1;
+}
+
+.main page-header {
+    margin-top : 0;
+}
+
+li {
+    list-style: none;
+}
+a {
+    color: blue;
+  }
+
+
+
+
+.dropdown{
+    max-width: 1200px;
+    display: flex;
+}
+
+ul{
+    text-align: center;
+    list-style-type: none;
+    margin: 0 auto;
+    padding: 0;
+
+}
+li{
+    max-width: calc(1200px/5);
+    position: relative;
+    padding: 5px;
+    display: block;
+    cursor: pointer;
+}
+
+.dropdown>li{
+    width: 85px;
+    margin: 10px;
+    display: inline;
+}
+
+.dropdown-menu{
+    width: 100%;
+    display: none;
+    position: absolute;
+    margin-left: -5px;
+    margin-top: 5px;
+    padding: 0;
+}
+
+.dropdwon-menu li{
+    width: 100%;
+}
+
+.dropdwon-menu li a{
+    padding: 5px 0;
+    margin: -5px 5px -5px -5px;
+    display: block;
+    color: #fff;
+}
+
+li a:hover{
+    background: #b3d7ff;
+    color: rgb(65, 65, 65);
+}
+
+
+/* 秘密鍵について */
+div#confirm_kwd {
+	border: 1px red solid;
+
+}
+
+
+
+#attention {
+	border: 1px #f00 solid;
+	padding: 10px;
+	margin-bottom: 30px;
+}
+#attention p.msg {
+	font-size: 110%;
+	font-weight: bold;
+	margin-bottom:10px;
+}
+#attention ul {
+	list-style-type: square;
+	margin: 10px 20px;
+}
+#timetable_box,
+#form_box,
+#calendar_box {
+	/* float:left; */
+	margin-right:50px;
+	size : 20px;
+	text-align : center;
+
+}
+
+/* カレンダー */
+table.calendar_body {
+	width:180px;
+	/* margin-bottom:30px; */
+	font-size : 30px;
+	float : left;
+	margin-left : 50px;
+	margin-top : 25px;
+}
+table.rsv_calendar caption{
+	/* font-weight:bold; */
+	margin-bottom:5px;
+}
+table.rsv_calendar td,
+table.rsv_calendar th {
+	text-align:center;
+	padding :5px;
+}
+
+table.rsv_calendar td#today, #current {
+	background-color:#eee; /* 今日の背景色 */
+}
+
+table.rsv_calendar td input { /* カレンダー内inputボタン */
+	background: none;
+	border: none;
+	padding: 0;
+	box-shadow: none;
+	color: #09c;
+	text-decoration: underline;
+	margin : 10px;
+}
+table.rsv_calendar td input:hover {
+	color: #8bc; /* リンクホバー色 */
+	background: none;
+}
+
+.calendar-text {
+	font-size :20px;
+}
+
+/* タイムテーブル */
+table#timetable{
+	border-collapse: separate;
+	border-spacing: 0px;
+	border: 1px solid #eee;
+}
+table#timetable th {
+	padding: 3px;
+	background-color: #ddd;
+	border-top: 1px solid #fff;
+	border-left: 1px solid #fff;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	font-weight:bold;
+	text-align:center;
+}
+table#timetable td {
+	padding: 3px;
+	border: 1px solid #eee;
+}
+table#timetable td input { /* タイムテーブル内inputボタン */
+	width:18px;
+	height:18px;
+	padding:0;
+	margin:3px 3px 0 0;
+	line-height:0;
+	text-align:center;
+	vertical-align:middle;
+	float:left;
+}
+table#timetable td.exist{ /* データが存在するセル */
+	background-color:#f6f6f6; /* 背景色 */
+}
+table#timetable td.exist img{
+	float:left;
+	margin-top:3px;
+}
+table#timetable th#origin{ /* 見出し部分 */
+	width:20px;
+	/*height:20px;*/
+}
+table#timetable th.cts {
+	width:70px; /* 中身の横幅 */
+}
+/* table#timetable tbody tr {
+	/*height:50px; 中身の縦幅
+} */
+
+/* 登録フォーム */
+input[type="text"], select{
+	margin-bottom:5px;
+}
+
+/* Message */
+.message  {
+
+}
+
+.error {
+	color : red;
+	font-weight: bold;
+	font-size :21px;
+}
+
+.user_edit {
+	text-align : center;
+}
