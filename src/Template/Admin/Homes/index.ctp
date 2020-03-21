@@ -81,9 +81,19 @@ $last_day = date('t', $unixmonth); //該当月の日数
                                     $strDate = strtotime($date);
 
                                     if ($strDate > $strUnionDay) {    
+                                        // 日にちが一桁の場合、半角スペースを入れる。
+                                        if (strlen($day) == 1) {
+                                            echo "&nbsp" . $day;
+                                        } else {
                                         echo $day;
+                                        }
                                     } else {
-                                        echo $this->Html->link($day, ['controller' => 'reservations', 'action' => 'detail', $unionDay]);
+                                        if (strlen($day) == 1) {
+                                            $dispNum = " " . $day;
+                                            echo $this->Html->link($dispNum, ['controller' => 'reservations', 'action' => 'detail', $unionDay]);
+                                        } else {
+                                            echo $this->Html->link($day, ['controller' => 'reservations', 'action' => 'detail', $unionDay]);
+                                        }
                                     }
                                     // echo "<input type='hidden' name='test' value='{$unionDay}'>";
                                     echo "</td>\n\t\t";

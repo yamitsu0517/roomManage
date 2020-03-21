@@ -3,49 +3,50 @@ $hours_st = '09:00'; //設定開始時間('hh:nn'で指定)
 $hours_end = '21:30'; //設定終了時間('hh:nn'で指定)
 $hours_margin = 30; //間隔を指定(分)
 
-$tbl_flg = True; //時間を横軸 → true, 縦軸 → falseにする
+$tbl_flg = ! $isSp; // PC→ true, SP → falseにする
 $master_key = 'special';
 
 //設定時間を計算して配列化
 $hours_baff = new DateTime( $date .' ' . $hours_st ); //配列格納用の変数
 $hours_end_date = new DateTime( $date . ' ' . $hours_end ); //終了時間を日付型へ
 
-$hours = array('0' => ''); //時間を格納する配列
-array_push($hours, $hours_baff->format('H:i')); //配列に追加
-$hours_baff = $hours_baff->modify ("+{$hours_margin} minutes"); //設定間隔を足す
-while ( $hours_baff <= $hours_end_date ) { //終了時間まで繰り返す
-    if ( $hours_baff->format('H:i') == '00:00' ){ //終了時間が00:00だったら
-        array_push($hours, '24:00'); //24:00で配列に追加
+//時間を格納する配列
+$hours = array('0' => '');
+//配列に追加
+array_push($hours, $hours_baff->format('H:i'));
+//設定間隔を足す
+$hours_baff = $hours_baff->modify ("+{$hours_margin} minutes");
+while ( $hours_baff <= $hours_end_date ) {
+    //終了時間が00:00だったら
+    if ( $hours_baff->format('H:i') == '00:00' ) {
+        array_push($hours, '24:00');
     } else {
-        array_push($hours, $hours_baff->format('H:i')); //配列に追加
+        array_push($hours, $hours_baff->format('H:i'));
     }
-    $hours_baff = $hours_baff->modify ("+{$hours_margin} minutes"); //設定間隔ずつ足していく
+    //設定間隔ずつ足していく
+    $hours_baff = $hours_baff->modify ("+{$hours_margin} minutes");
 }
-
+?>
+<?php
 // パスワードありがクリックされた時表示させる。
-if (isset($_POST['kwd_delete'])) {
-    echo "<div id='confirm_kwd'>";
-        echo "<form method='POST'>
-            <p>秘密鍵を入力してください</p>
-            <input type='text' name='delete_kwd'>
-            <input type='hidden' name= 'kwd' value='". $_POST['kwd'] . "'>
-            <input type='hidden' name='id' value='". $_POST['id'] ."'>
-            <input type='submit' name='kwd_btn' value='削除する'>";
-        echo "</form>";
-    echo "</div>";
+if (isset($_POST['kwd_delete'])) { ?>
+    <div id='confirm_kwd'>";
+      <form method='POST'>
+        <p>秘密鍵を入力してください</p>
+        <input type='text' name='delete_kwd' autocomplete="off">
+        <input type='hidden' name= 'kwd' value='<?php echo $_POST["kwd"]?>'>
+        <input type='hidden' name='id' value='<?php echo $_POST["id"]?>'>
+        <input type='submit' name='kwd_btn' value='削除する'>
+      </form>
+    </div>
+<?php } ?>
 
-}
-/*
-*
-* タイムテーブル生成のための下準備をする部分 
-* 部屋ごとに値を入れる配列
-*
-*/
-
+<!--部屋ごとに値を入れる配列 -->
+<?php
 foreach ($rooms as $room) {
-	for ( $i = 1; $i <= count($hours); $i++ ) {
-		$data_meta[$room->name][$i] = null; //配列を定義しておく（エラー回避）
-	}
+  for ( $i = 1; $i <= count($hours); $i++ ) {
+    $data_meta[$room->name][$i] = null; //配列を定義しておく（エラー回避）
+  }
 }
 $roomName = [];
 $num = 1;
@@ -56,35 +57,39 @@ foreach ($rooms as $room) {
 
 //タイムテーブル設定
 if ( $tbl_flg == true ) {
-	$clm = $hours; //縦軸 → 時間
-	$row = $roomName; //横軸 → 設定項目
-	$clm_n = count($clm) - 1; //縦の数（時間配列の-1）
-	$row_n = count($row); //横の数
+  $clm = $hours; //縦軸 → 時間
+  $row = $roomName; //横軸 → 設定項目
+  $clm_n = count($clm) - 1; //縦の数（時間配列の-1）
+  $row_n = count($row); //横の数
 } else {
-	$clm = $roomName; //縦軸 → 設定項目
-	$row = $hours; //横軸 → 時間
-	$clm_n = count($clm); //縦の数
-	$row_n = count($row) - 1; //横の数（時間配列の-1）
+  $clm = $roomName; //縦軸 → 設定項目
+  $row = $hours; //横軸 → 時間
+  $clm_n = count($clm); //縦の数
+  $row_n = count($row) - 1; //横の数（時間配列の-1）
 }
+// 0 はデータなしにしたいので、1から始める
+$data_n = 1;
 
-$err_n = 0; //エラー件数カウント用
-$data_n = 1; //0はデータ無しにしたいので、1から始める
+if (isset($reservationData)) { 
 
-
-if (isset($reservationData)){ 
-
-    foreach ( $reservationData as $value) { //指定日付のデータ数繰り返す
-
-        $key1 = null; //エラーキャッチ用にnullを入れておく
+    foreach ( $reservationData as $value) {
+        
+        //エラーキャッチ用にnullを入れておく
+        $key1 = null; 
         $key2 = null;
-        // 20/2/5 10:10:10.0000 を直す
+
+        // Y-m-d に直す
         $time1 = date('Y-m-d H:i:d', strtotime($value->start_time));
         $time2 = date('Y-m-d H:i:d', strtotime($value->end_time));
 
-        $time1 = substr($time1, 11, 5); //該当データの開始日時'00:00'抜出
-        $key1 = array_search($time1, $hours); //時間配列内の番号	
-        $time2 = substr($time2, 11, 5); //該当データの終了日時'00:00'抜出
-        $key2 = array_search($time2, $hours); //時間配列内の番号
+        //該当データの開始日時'00:00'抜出
+        $time1 = substr($time1, 11, 5); 
+        //時間配列内の番号
+        $key1 = array_search($time1, $hours);
+        //該当データの終了日時'00:00'抜出
+        $time2 = substr($time2, 11, 5);
+        //時間配列内の番号
+        $key2 = array_search($time2, $hours);
 
         //$data_meta['項目名']['開始時間配列番号']へナンバリングしていく
         $data_meta[$value['room']['name']][$key1] = $data_n;
@@ -103,21 +108,26 @@ if (isset($reservationData)){
 
 // rowspan結合数を格納する配列にゼロを入れておく
 for ( $i = 0; $i <= $clm_n; $i++ ) {
-	$span_n[$i] = 0; 
+ $span_n[$i] = 0; 
 }
 
-
-// ここから、タイムテーブルを作成していく。
-echo "<div class='main'>";
-echo '<table id="timetable">'."\n<thead>\n<tr>\n".'<th id="origin">時間</th>'."\n";
-for ( $i = 1; $i <= $clm_n; $i++ ) {
-	echo '<th class="cts">&nbsp;'.$clm[$i]."</th>\n"; //横軸見出し
-}
-
-echo "</tr>\n</thead>\n<tbody>\n";
-for ( $i = 1; $i <= $row_n; $i++ ) { //縦軸の数繰り返す
-	echo "<tr><td>".$row[$i].'</td>'; //縦軸見出し
-	for ( $j = 1; $j <= $clm_n; $j++ ) { //横軸の数繰り返す
+?>
+<!-- ここから、タイムテーブルを作成していく。-->
+<div class='main'>
+  <table id="timetable">
+    <thead>
+      <tr>
+        <th id="origin">時間</th>
+<?php for ( $i = 1; $i <= $clm_n; $i++ ) { ?>
+	    <th class="cts">&nbsp<?php echo $clm[$i]?></th>
+<?php } ?>
+      </tr>
+    </thead>
+    <tbody>
+<?php for ( $i = 1; $i <= $row_n; $i++ ) { //縦軸 ?>
+	<tr>
+      <td><?php echo $row[$i]?></td>
+	<?php for ( $j = 1; $j <= $clm_n; $j++ ) { //横軸
 		if ( $tbl_flg == false && $span_n[$j] >= 0 ) { //時間軸が縦の場合の繰り上げ処理
 			$span_n[$j]--; //rowspan結合の数だけtd出力をスルー
 		} else { //通常時
@@ -125,10 +135,6 @@ for ( $i = 1; $i <= $row_n; $i++ ) { //縦軸の数繰り返す
 			$data_n = 0; //ゼロはデータ無し
 			if ( $tbl_flg == true ) { //時間軸が横なら
                 $data_n = $data_meta[$row[$i]][$j];
-                // echo "<pre>";
-                // var_dump($data_meta[$row[$i]]);
-                // echo "</pre>";
-
 			} else { //時間軸が縦なら
 				$data_n = $data_meta[$clm[$j]][$i];
 			}
@@ -171,111 +177,100 @@ for ( $i = 1; $i <= $row_n; $i++ ) { //縦軸の数繰り返す
                         // echo "a";
                         // $this->Html->image("key.png")
                     }    
-                }
+                } ?>
 
-				echo '<td class="exist"'.$block.'>'.$cts.$dlt.'</td>'; //tdの中に出力
-			}
-		}
-	} //横軸for
-	echo "</tr>\n";
-} //縦軸for
-echo "</tbody>\n</table>\n";
-
-?>
+				<td class="exist" <?php echo $block ?> ><?php echo $cts.$dlt ?></td>
+			<?php } ?>
+		<?php } ?>
+	<?php } ?>
+	</tr>
+<?php } ?>
+    </tbody>
+  </table>
 
 
 
 <!-- 予約フォーム（年月日から入れるもの -->
 
 <?php
-
-
-$templateStart = array(
-        // 'type' => 'time',
-        'label' => '',
-        'dateFormat' => 'H:i',
-        'monthNames' => false,
-        // 'min' => '09:00',
-        // 'max' => '21:00',
-        'separator' => '-',
-        'minYear' => date('Y'),
-        'maxYear' => date('Y')+1,
-        'default' => date('Y-m-d h:i'),
-        'interval' => 30,
-        'require' => true
-
-);
-$templateEnd = array(
-    // 'type' => 'time',
+$templateStart = [
+    'label' => '',
+    'dateFormat' => 'H:i',
+    'monthNames' => false,
+    'separator' => '-',
+    'minYear' => date('Y'),
+    'maxYear' => date('Y')+1,
+    'default' => date('Y-m-d h:i'),
+    'interval' => 30,
+    'require' => true
+];
+$templateEnd = [
     'label' => '',
     'dateFormat' => 'YMD',
     'monthNames' => false,
     'separator' => '-',
     'minYear' => date('Y'),
     'maxYear' => date('Y')+1,
-    // 'minTime' => '09:00',
-    // 'maxTime' => '21:00',
     'default' => date('Y-m-d h:i'),
     'interval' => 30,
     'require' => true
-);
-
+];
 ?>
-<div class="form">
-    <h2>予約フォーム</h2>
-    <p>※秘密鍵は任意です</p>
     <div class="form">
-        <?php
-        // ラジオボタン用のデータ作成
-        $options = [];
-        $conut = 1;
-        foreach ($rooms as $room) {;
-            $option[$conut] = $room->name;
-            $conut++;
-        }
-
-        echo "<table>";
-        echo "<form method='post' id='reservation'>";
-        // echo $this->Form->create('reservations',['method'=>'GET']);
-        if (isset($dateData)){
-            echo "<input type='hidden' name='dateData' value={$dateData}>";
-        }
-        echo "<tr>";
-            echo "<th>使う部屋：</th>";
-            echo "<td>";
-                echo $this->Form->radio('room_id', $roomName, ['value' => '1']);
-        echo "</td></tr>";
-        echo "<tr><th>";
-            echo "開始時間：";
-        echo "</th><td>";
-            // echo $this->Form->time('start_time',$templateStart);
-            echo "<input type='time' id='start_time' name='start_time' max='21:30' min='09:00' step=1800 required>";
-
-        echo "</td></tr>";
-        echo "<tr><th>";
-            echo "終了時間：";
-        echo "</th><td>";
-            // echo $this->Form->time('end_time',$templateEnd);
-            echo "<input type='time' id='end_time' name='end_time' max='22:00' min='09:00' step=1800 required>";
-        echo "</td></tr>";
-        echo "<tr><th>目的：</th><td>";
-            // echo $this->Form->input('purpose',['label' => '']);
-            echo "<input type='text' id='purpose' name='purpose' required>";
-        echo "</td></tr>";
-        echo "<tr><th>";
-            echo "秘密鍵：";
-        echo "</th><td>";
-            // echo $this->Form->input('key', ['label' => '']) . "</td></tr>";
-            echo "<input type='text' id='kwd' name='kwd' required>";
-        echo "<tr><td></td><td></td><td>";
-        // echo $this->Form->button('予約する');
-        echo "<input type='submit' id='btn' name='btn' value='予約する'>";
-        echo "</td></tr>";
-        // echo $this->Form->end();
-        echo "</form>";
-
-        echo "</table>";
-        ?>
+        <h2>予約フォーム</h2>
+        <p>※秘密鍵は任意です</p>
+        <div class="form">
+            <?php
+            // ラジオボタン用のデータ作成
+            $options = [];
+            $conut = 1;
+            foreach ($rooms as $room) {
+                $option[$conut] = $room->name;
+                $conut++;
+            }
+            ?>
+            <table>
+            <form method='post' id='reservation'>
+                <?php if (isset($dateData)) { ?>
+                <input type='hidden' name='dateData' value='<?php echo $dateData ?>'>;
+                <?php } ?>
+                <tr>
+                <th>使う部屋：</th>
+                <td>
+                    <?php echo $this->Form->radio('room_id', $roomName, ['value' => '1']); ?>
+                </td>
+                </tr>
+                <tr>
+                <th>開始時間：</th>
+                <td>
+                    <input type='time' id='start_time' name='start_time' max='21:30' min='09:00' step=1800 required>
+                </td>
+                </tr>
+                <tr>
+                <th>終了時間：</th>
+                <td>
+                    <input type='time' id='end_time' name='end_time' max='22:00' min='09:00' step=1800 required>
+                </td>
+                </tr>
+                <tr>
+                <th>目的：</th>
+                <td>
+                    <input type='text' id='purpose' name='purpose' required>
+                </td>
+                </tr>
+                <tr>
+                <th>秘密鍵：</th>
+                <td>
+                    <input type='text' id='kwd' name='kwd' required>
+                </td>
+                </tr>
+                <tr></tr>
+                <td colspan='3' style="float:right">
+                    <input type='submit' id='btn' name='btn' value='予約する'>
+                </td>
+                </tr>
+            </form>
+            </table>
+        </div>
     </div>
-</div>
-</div>
+</div> <!-- /.main -->

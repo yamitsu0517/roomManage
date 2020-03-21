@@ -17,10 +17,10 @@ $(function(){
     });
 
     $('#reservation').submit(function() {
-        var start_time = document.getElementById('start_time').value,
-            end_time   = document.getElementById('end_time').value,
-            purpose    = document.getElementById('purpose').value,
-            kwd        = document.getElementById('kwd').value;
+        var start_time = $('#start_time').val(),
+            end_time   = $('#end_time').val(),
+            purpose    = $('#purpose').val(),
+            kwd        = $('#kwd').val();
         var message = '';
         if (start_time == '') {
             message += '開始時間,'

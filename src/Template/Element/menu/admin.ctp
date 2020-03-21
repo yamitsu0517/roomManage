@@ -32,7 +32,7 @@
                 <li class="">
                     <?=$this->Html->link('部屋管理', '#',['data-toggle' => 'dropdown'])?>
                     <ul class="dropdown-menu">
-                        <li><?=$this->Html->link('部屋追加', '/admin/rooms/index')?></li>
+                        <li><?=$this->Html->link('部屋一覧', '/admin/rooms/index')?></li>
                     </ul>
                 </li>
             <?php endif; ?>

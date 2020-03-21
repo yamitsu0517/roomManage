@@ -22,7 +22,7 @@ class ReservationsController extends AppController {
     }
 
 
-    /*
+    /**
      * 主にdetail function がmain
      * @param YYYYmmdd 形式
      * 
@@ -35,7 +35,9 @@ class ReservationsController extends AppController {
         $hasAuth = $this->MyAuth->user('auth');
         $name = $this->MyAuth->user('name');
         $rooms = $this->reservations->rooms->find('all');
-        
+        // SP判定
+        $isSp = $this->isSp();
+
         // GET送信された8桁を変換
         $date = date('Y-m-d', strtotime($data));
         $this->set(compact(('date')));
@@ -49,7 +51,7 @@ class ReservationsController extends AppController {
         // 今日の日付を取得 
         $today = date('Y-m-d'); //YYYY-MM-DDの形
 
-        $this->set(compact('id', 'hasAuth', 'name', 'reservationData', 'rooms', 'today'));
+        $this->set(compact('id', 'hasAuth', 'reservationData', 'rooms', 'isSp'));
         
         $today = str_replace('-','',$today);
 
@@ -128,10 +130,10 @@ class ReservationsController extends AppController {
     }
 
 
-    /*
+    /**
      * @param  date 'YYYY-mm-dd' 形式
      * @param  id   ログインユーザのID
-     * @param  reservationData 該当日時のデーダ
+     * @param  reservationData 該当日時のデータ
      * @return 挿入処理 or 失敗
      */
     private function insert($date, $id, $reservationData) {
@@ -166,8 +168,7 @@ class ReservationsController extends AppController {
                     $reservation->purpose = $request->data('purpose');
                     $reservation->kwd = $request->data('kwd');
                     $reservation->deleted_flg = $request->data('deleted_flg');
-var_dump($reservation);
-exit;
+
                     if ($this->Reservations->save($reservation)) {
                         // ユーザ作成と同じセッションに代入
                         // $this->MyAuth->setUser($reservation);
