@@ -79,7 +79,7 @@ class RoomsController extends AppController {
     /**
      * @param $room 変更したい内容
      * @param $rooms テーブルデータ
-     * @return boolean
+     * @return boolean, message
      */
     public function validate($room, $rooms) {
 
@@ -95,6 +95,7 @@ class RoomsController extends AppController {
             'result' =>true
         ];
     }
+    
     function h($str) {
         return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
     }

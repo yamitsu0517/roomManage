@@ -41,6 +41,5 @@ $(function(){
             alert(message);
             return false;
         }
-      //  var start_time = document.getElementById()
     });
 });
