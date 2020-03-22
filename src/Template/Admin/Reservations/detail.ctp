@@ -1,6 +1,6 @@
 <?php
-$hours_st = '09:00'; //設定開始時間('hh:nn'で指定)
-$hours_end = '21:30'; //設定終了時間('hh:nn'で指定)
+$hours_st = $configTime['start_time']; //設定開始時間('hh:nn'で指定)
+$hours_end = $configTime['end_time']; //設定終了時間('hh:nn'で指定)
 $hours_margin = 30; //間隔を指定(分)
 
 $tbl_flg = ! $isSp; // PC→ true, SP → falseにする
@@ -51,12 +51,13 @@ foreach ($rooms as $room) {
 $roomName = [];
 $num = 1;
 foreach ($rooms as $room) {
+    if ($room->deleted_flg) continue;
     $roomName[$num] = $room->name;
     $num++;
 }
 
 //タイムテーブル設定
-if ( $tbl_flg == true ) {
+if (! $isSp) {
   $clm = $hours; //縦軸 → 時間
   $row = $roomName; //横軸 → 設定項目
   $clm_n = count($clm) - 1; //縦の数（時間配列の-1）
@@ -128,12 +129,12 @@ for ( $i = 0; $i <= $clm_n; $i++ ) {
 	<tr>
       <td><?php echo $row[$i]?></td>
 	<?php for ( $j = 1; $j <= $clm_n; $j++ ) { //横軸
-		if ( $tbl_flg == false && $span_n[$j] >= 0 ) { //時間軸が縦の場合の繰り上げ処理
+		if ( $isSp && $span_n[$j] >= 0 ) { //時間軸が縦の場合の繰り上げ処理
 			$span_n[$j]--; //rowspan結合の数だけtd出力をスルー
 		} else { //通常時
 			$block = '';
 			$data_n = 0; //ゼロはデータ無し
-			if ( $tbl_flg == true ) { //時間軸が横なら
+			if (! $isSp) { //時間軸が横なら
                 $data_n = $data_meta[$row[$i]][$j];
 			} else { //時間軸が縦なら
 				$data_n = $data_meta[$clm[$j]][$i];
@@ -142,7 +143,7 @@ for ( $i = 0; $i <= $clm_n; $i++ ) {
 				echo '<td>&nbsp;</td>'; //空白を入れる
             } else { //データが有るとき
 				if ( $ar_block[$data_n] > 1 ) { //ブロックが2つ以上
-					if ($tbl_flg == true) { //時間軸が横だったら
+					if (!$isSp) { //時間軸が横だったら
 						$block = ' colspan="'.$ar_block[$data_n].'"'; //横方向へ結合
 						$j = $j + $ar_block[$data_n] - 1; //colspan結合ぶん横軸数を繰り上げ
 					} else { //時間軸が縦だったら

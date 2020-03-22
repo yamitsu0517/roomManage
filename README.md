@@ -16,7 +16,9 @@
 3. SP版の拡張（画面表示分け）
 
 ## 環境構築
-1.データベース
+1. 設定ファイル  
+　config/config.php  に開始時間・終了時間が設定されているので、任意の値を設定してください（分は30分単位）
+2. データベース
  ```bash
 CREATE DATABASE IF NOT EXISTS roomManage;
 
@@ -44,9 +46,8 @@ CREATE TABLE `Rooms` (
   `deleted_flg` tinyint(1) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `UNI` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 
 drop Table if EXISTS  `Reservations`;
 CREATE TABLE `Reservations` (
@@ -55,8 +56,8 @@ CREATE TABLE `Reservations` (
   `room_id` int(11) NOT NULL,
   `start_time` datetime NOT NULL COMMENT '開始時間',
   `end_time` datetime NOT NULL COMMENT '終了時間',
-  `purpose` varchar(64) DEFAULT NULL COMMENT '目的',
-  `kwd` varchar(32) DEFAULT NULL COMMENT '削除キー',
+  `purpose` varchar(64) NOT NULL COMMENT '目的',
+  `kwd` varchar(32) NOT NULL COMMENT '削除キー',
   `deleted_flg` int(1) DEFAULT NULL COMMENT '削除フラグ',
   `created` datetime DEFAULT NULL COMMENT '作成日時',
   `modified` datetime DEFAULT NULL COMMENT '更新日時',

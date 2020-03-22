@@ -70,9 +70,9 @@ $last_day = date('t', $unixmonth); //該当月の日数
                                     if ( $day == $sp_date[2] && $thismonth == $sp_date[1] && $thisyear == $sp_date[0] ) {
                                         echo '<td id="current">'; //引数と一致する日にid付加
                                     } else if ( $day == date('j') && $thismonth == date('m') && $thisyear == date('Y') ) {
-                                        echo '<td id="today">'; //本日と一致する日にid付加
+                                        echo '<td id="today" align="center">'; //本日と一致する日にid付加
                                     } else {
-                                        echo '<td>';
+                                        echo '<td align="center">';
                                     }
                                     $thismonth_s = "0" . (string)$thismonth;
                                     $unionDay = $thisyear . $thismonth_s . $days;

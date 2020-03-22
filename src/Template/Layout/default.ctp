@@ -16,7 +16,6 @@ $this->prepend('css', $this->Html->css(['style.css']));
 <?= $this->Html->script('https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'); ?>
 <?= $this->Html->script('style.js') ?>
 <?= $this->Html->script('user_edit.js')?>
-
-
+<?= $this->Html->script('getUserData.js')?>
 </body>
 </html>

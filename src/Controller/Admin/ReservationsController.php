@@ -3,6 +3,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\Admin\AppController;
 use Cake\ORM\TableRegistry;
+use Cake\Core\Configure;
 
 class ReservationsController extends AppController {
     
@@ -31,12 +32,19 @@ class ReservationsController extends AppController {
         
         $this->loadModel('rooms');
         $this->loadModel('reservations');
+
         $id =$this->MyAuth->user('id');
         $hasAuth = $this->MyAuth->user('auth');
         $name = $this->MyAuth->user('name');
         $rooms = $this->reservations->rooms->find('all');
         // SP判定
         $isSp = $this->isSp();
+
+        // 開始時間・終了時間読み込み
+        $configTime = [
+            'start_time' => Configure::read("start_time"),
+            'end_time'    => Configure::read("end_time"),
+        ];
 
         // GET送信された8桁を変換
         $date = date('Y-m-d', strtotime($data));
@@ -51,7 +59,7 @@ class ReservationsController extends AppController {
         // 今日の日付を取得 
         $today = date('Y-m-d'); //YYYY-MM-DDの形
 
-        $this->set(compact('id', 'hasAuth', 'reservationData', 'rooms', 'isSp'));
+        $this->set(compact('id', 'hasAuth', 'reservationData', 'rooms', 'isSp', 'configTime'));
         
         $today = str_replace('-','',$today);
 

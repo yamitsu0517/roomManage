@@ -7,13 +7,15 @@
         <th>部屋番号</th>
         <th>部屋名</th>
         <?php if ($hasAuth) {?>
-        <th>編集</th>
+        <th colspan='2'>編集</th>
         <?php } ?>
     </tr>
+    <?php $cnt = 1 ?>
     <?php foreach ($rooms as $room): ?>
+        <?php if ($room->deleted_flg) continue;?>
     <tr>
         <td>
-            <?php echo $room->id?> 
+            <?php echo $cnt++?> 
         </td>
         <td>
             <?php echo $room->name?>
@@ -21,6 +23,9 @@
         <?php if ($hasAuth) { ?>
         <td>
             <?php echo $this->Html->link('編集', ['action' => 'edit', $room->id]);?>
+        </td>
+        <td>
+        <?php echo $this->Html->link('削除', ['action' => 'delete', $room->id]);?>
         </td>
         <?php } ?>
     </tr>

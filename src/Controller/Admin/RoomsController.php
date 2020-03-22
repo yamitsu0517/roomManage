@@ -31,12 +31,21 @@ class RoomsController extends AppController {
         $hasAuth = $this->MyAuth->user('auth');
         $this->set(compact('id', 'hasAuth'));
 
+        $rooms = $this->rooms->find('all');
         $room = $this->Rooms->newEntity();
 
         if ($this->request->is('post')) {
             $room->name = $this->request->data('name'); 
             $room->deleted_flg = 0; 
-
+            
+            // 同じ名前がないか確認
+            $textFlg = false;
+            foreach ($rooms as $r) {
+                if ($r->name != $room->name && $r->deleted_flg == 1) {
+                    $textFlg = true;
+                }
+            }
+            if (! $textFlg) return $this->Flash->error(__('部屋名が重複しています。'));
             if ($this->Rooms->save($room)) {
 
               $this->Flash->success(__('部屋を新規追加しました。'));
@@ -76,6 +85,20 @@ class RoomsController extends AppController {
 		}
     }
 
+
+    public function delete($roomId) {
+        $this->loadModel('Rooms');
+        $room = $this->Rooms->findById($roomId)->first();
+
+        $room->deleted_flg = 1;
+        if ($this->Rooms->save($room)) {
+            $this->Flash->success('削除しました。');
+            return $this->redirect(['action' => 'index']);
+        } else {
+            $this->Flash->error(__("削除に失敗しました。"));
+        }
+    }
+
     /**
      * @param $room 変更したい内容
      * @param $rooms テーブルデータ
@@ -95,7 +118,7 @@ class RoomsController extends AppController {
             'result' =>true
         ];
     }
-    
+
     function h($str) {
         return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
     }
