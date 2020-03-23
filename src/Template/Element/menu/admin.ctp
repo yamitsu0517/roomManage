@@ -22,12 +22,6 @@
                     <li><?=$this->Html->link('ログアウト', '/admin/users/logout')?></li>
                 </ul>
             </li>
-            <li class="">
-                <?=$this->Html->link('おまけ', '#',['data-toggle' => 'dropdown'])?>
-                <ul class="dropdown-menu">
-                    <li><?=$this->Html->link('図形作成', '/admin/reservations/add')?></li>
-                </ul>
-            </li>
             <?php if ($auth):?>
                 <li class="">
                     <?=$this->Html->link('部屋管理', '#',['data-toggle' => 'dropdown'])?>
@@ -36,6 +30,12 @@
                     </ul>
                 </li>
             <?php endif; ?>
+            <!--<li class="">
+                    <?=$this->Html->link('おまけ', '#',['data-toggle' => 'dropdown'])?>
+                <ul class="dropdown-menu">
+                    <li><?=$this->Html->link('図形作成', '/admin/reservations/add')?></li>
+                </ul>
+            </li>-->
         </ul>
     </div>
 </div>
