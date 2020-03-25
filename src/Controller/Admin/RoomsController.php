@@ -13,7 +13,8 @@ class RoomsController extends AppController {
         $this->loadModel('users');
         $this->loadModel('rooms');
         $id =$this->MyAuth->user('id');
-        $hasAuth = $this->MyAuth->user('auth');
+        $user = $this->users->findById($id)->first();
+        $hasAuth = $user['auth'];
         $this->set(compact('id', 'hasAuth'));
 
         $user = $this->users->find('all')
@@ -40,10 +41,16 @@ class RoomsController extends AppController {
             
             // 同じ名前がないか確認
             $textFlg = false;
+            $confirmFlg = true;
             foreach ($rooms as $r) {
                 if ($r->name != $room->name && $r->deleted_flg == 1) {
                     $textFlg = true;
+                    $confirmFlg = false;
                 }
+            }
+            if ($confirmFlg) {
+                // foreach の中にない->データがない
+                $textFlg = true;
             }
             if (! $textFlg) return $this->Flash->error(__('部屋名が重複しています。'));
             if ($this->Rooms->save($room)) {

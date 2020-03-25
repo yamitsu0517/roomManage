@@ -32,9 +32,11 @@ class ReservationsController extends AppController {
         
         $this->loadModel('rooms');
         $this->loadModel('reservations');
+        $this->loadModel('users');
 
         $id =$this->MyAuth->user('id');
-        $hasAuth = $this->MyAuth->user('auth');
+        $user = $user = $this->users->findById($id)->first();
+        $hasAuth = $user['auth'];
         $name = $this->MyAuth->user('name');
         $rooms = $this->reservations->rooms->find('all');
         // SP判定
@@ -290,7 +292,7 @@ class ReservationsController extends AppController {
             // 引っ掛からなかったら、登録してみる。
             return array(
                 'result' => 'True',
-                'message' => '登録できちゃった。'
+                'message' => '予約しました。'
             );
         }
         // foreach の中に入らなかったら。（テーブルにデータがないとき）

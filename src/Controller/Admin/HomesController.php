@@ -15,11 +15,11 @@ class HomesController extends AppController {
         if ($id == 1 && $user['auth'] == null) {
             $user['auth'] = 1;
             if ($this->users->save($user)) {
-                return $this->redirect($this->MyAuth->redirectUrl());
+                return $this->redirect(['action' => 'index']);
             }
         }
 
-        $hasAuth = $this->MyAuth->user('auth');
+        $hasAuth = $user['auth'];
         $homeMenus = [];
 
         $homeMenus['部屋予約'] = ['controller' => 'Reservations' , 'action' => 'add'];
