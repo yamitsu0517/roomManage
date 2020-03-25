@@ -26,10 +26,7 @@
 4. CSS の修正
 5. 設定ファイルのテーブル化
 
-## 環境構築
-1. 設定ファイル  
-　config/config.php  に開始時間・終了時間が設定されているので、任意の値を設定してください（分は30分単位）
-2. データベース（MySQL）
+## データベース(MySQL)
  ```bash
 CREATE DATABASE IF NOT EXISTS roomManage;
 
