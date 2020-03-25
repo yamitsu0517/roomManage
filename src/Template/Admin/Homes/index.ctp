@@ -3,7 +3,6 @@ $today = date('Ymd'); //YYYYMMDDの形
 $date  = date('Y-m-d');
 $thisyear = (int)date('Y');
 $thismonth = (int)date('m') -1;
-//$thismonth = 5;
 $thisday = (int)date('d');
 $week = array("日", "月", "火", "水", "木", "金", "土"); //曜日定義
 $unixmonth = mktime(0, 0 , 0, $thismonth, 1, $thisyear); //該当月1日のタイムスタンプ
@@ -95,7 +94,6 @@ $last_day = date('t', $unixmonth); //該当月の日数
                                             echo $this->Html->link($day, ['controller' => 'reservations', 'action' => 'detail', $unionDay]);
                                         }
                                     }
-                                    // echo "<input type='hidden' name='test' value='{$unionDay}'>";
                                     echo "</td>\n\t\t";
                                     
                                     if ( 6 == date('w', mktime(0, 0 , 0, $thismonth, $day, $thisyear)) ) {
