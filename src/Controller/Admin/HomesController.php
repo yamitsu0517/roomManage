@@ -30,13 +30,6 @@ class HomesController extends AppController {
         $getDate = date('n');
 
         $this->set(compact('homeMenus', 'auth', 'usr', 'hasAuth'));
-
-        if ($this->request->is('post')) {
-            $dateData = $this->request->data;
-            var_dump($dateData);
-            // return $this->redirect(['controller' => 'Reservations', 'action' => 'detail']);
-        }   
-
     }
 
     function h($str) {

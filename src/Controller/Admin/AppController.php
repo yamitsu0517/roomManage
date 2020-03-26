@@ -47,25 +47,23 @@ class AppController extends Controller {
     }
     /**
     * SP判定
-    * @return bool
+    * @return boolean true:SP false:PC
     */
     function isSp() {
 
         $ua = $this->getuserAgent();
 
         if (stripos($ua, 'iphone') !== false || // iphone
-        stripos($ua, 'ipod') !== false || // ipod
-        (stripos($ua, 'android') !== false && stripos($ua, 'mobile') !== false) || // android
-        (stripos($ua, 'windows') !== false && stripos($ua, 'mobile') !== false) || // windows phone
-        (stripos($ua, 'firefox') !== false && stripos($ua, 'mobile') !== false) || // firefox phone
-        (stripos($ua, 'bb10') !== false && stripos($ua, 'mobile') !== false) || // blackberry 10
-        (stripos($ua, 'blackberry') !== false) // blackberry
+            stripos($ua, 'ipod') !== false || // ipod
+            (stripos($ua, 'android') !== false && stripos($ua, 'mobile') !== false) || // android
+            (stripos($ua, 'windows') !== false && stripos($ua, 'mobile') !== false) || // windows phone
+            (stripos($ua, 'firefox') !== false && stripos($ua, 'mobile') !== false) || // firefox phone
+            (stripos($ua, 'bb10') !== false && stripos($ua, 'mobile') !== false) || // blackberry 10
+            (stripos($ua, 'blackberry') !== false) // blackberry
         ) {
-        $isSmartPhone = true;
+            return true;
         } else {
-        $isSmartPhone = false;
+            return false;
         }
-
-        return $isSmartPhone;
     }
 }

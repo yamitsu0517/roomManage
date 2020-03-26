@@ -127,63 +127,63 @@ for ( $i = 0; $i <= $clm_n; $i++ ) {
     <tbody>
 <?php for ( $i = 1; $i <= $row_n; $i++ ) { //縦軸 ?>
 	<tr>
-      <td><?php echo $row[$i]?></td>
-	<?php for ( $j = 1; $j <= $clm_n; $j++ ) { //横軸
-		if ( $isSp && $span_n[$j] >= 0 ) { //時間軸が縦の場合の繰り上げ処理
-			$span_n[$j]--; //rowspan結合の数だけtd出力をスルー
-		} else { //通常時
-			$block = '';
-			$data_n = 0; //ゼロはデータ無し
-			if (! $isSp) { //時間軸が横なら
-                $data_n = $data_meta[$row[$i]][$j];
-			} else { //時間軸が縦なら
-				$data_n = $data_meta[$clm[$j]][$i];
-			}
-			if ( $data_n == 0 || $ar_dlt[$data_n] == 1) { //データが無いとき
-				echo '<td>&nbsp;</td>'; //空白を入れる
-            } else { //データが有るとき
-				if ( $ar_block[$data_n] > 1 ) { //ブロックが2つ以上
-					if (!$isSp) { //時間軸が横だったら
-						$block = ' colspan="'.$ar_block[$data_n].'"'; //横方向へ結合
-						$j = $j + $ar_block[$data_n] - 1; //colspan結合ぶん横軸数を繰り上げ
-					} else { //時間軸が縦だったら
-						$block = ' rowspan="'.$ar_block[$data_n].'"'; //縦方向へ結合
-						$span_n[$j] = $ar_block[$data_n] - 1; //rowspan結合数を格納→冒頭で繰り上げ処理
-					}
-				}
-                $cts = h($ar_name[$data_n]).'<br />'.h($ar_purp[$data_n]); //htmlエスケープしながら中身成形
-                $dlt = '';
-
-				if ( $ar_kwd[$data_n] == '' ) { //削除キー無
-                    //onsubmitでJavaScriptを呼び出す
-                    
-                    if ($ar_userId[$data_n] == $id || $hasAuth >=1) {
-                        $dlt = '<form action="" method="post" onsubmit="return dltChk()">
-                        <input type="hidden" name="date" value="'.$date.'" />
-                        <input type="hidden" name="user_id" value="'.$ar_userId[$data_n].'" >
-                        <input type="hidden" name="id" value="'.$ar_id[$data_n].'" />
-                        <input type="hidden" name="id" value="'.$hasAuth.'" />
-                        <input type="submit" name="delete" value="×"></form>';
+        <td><?php echo $row[$i]?></td>
+	    <?php for ( $j = 1; $j <= $clm_n; $j++ ) { //横軸
+            if ( $isSp && $span_n[$j] >= 0 ) { //時間軸が縦の場合の繰り上げ処理
+                $span_n[$j]--; //rowspan結合の数だけtd出力をスルー
+            } else { //通常時
+                $block = '';
+                $data_n = 0; //ゼロはデータ無し
+                if (! $isSp) { //時間軸が横なら
+                    $data_n = $data_meta[$row[$i]][$j];
+                } else { //時間軸が縦なら
+                    $data_n = $data_meta[$clm[$j]][$i];
+                }
+                if ( $data_n == 0 || $ar_dlt[$data_n] == 1) { //データが無いとき
+                    echo '<td>&nbsp;</td>'; //空白を入れる
+                } else { //データが有るとき
+                    if ( $ar_block[$data_n] > 1 ) { //ブロックが2つ以上
+                        if (!$isSp) { //時間軸が横だったら
+                            $block = ' colspan="'.$ar_block[$data_n].'"'; //横方向へ結合
+                            $j = $j + $ar_block[$data_n] - 1; //colspan結合ぶん横軸数を繰り上げ
+                        } else { //時間軸が縦だったら
+                            $block = ' rowspan="'.$ar_block[$data_n].'"'; //縦方向へ結合
+                            $span_n[$j] = $ar_block[$data_n] - 1; //rowspan結合数を格納→冒頭で繰り上げ処理
+                        }
                     }
-				} else { //削除キー有
-                    //カギ画像付加
+                    $cts = h($ar_name[$data_n]).'<br />'.h($ar_purp[$data_n]); //htmlエスケープしながら中身成形
+                    $dlt = '';
 
-                    if ($ar_userId[$data_n] == $id) {
-                        $dlt = '<form action="" method="post"><input type="hidden" name="date" value="'.$date.'" />
-                        <input type="hidden" name="id" value="'.$ar_id[$data_n].'" />
-                        <input type="hidden" name="user_id" value="'.$ar_userId[$data_n].'" >
-                        <input type="hidden" name="kwd" value="'.$ar_kwd[$data_n].'">
-                        <input type="submit" name="kwd_delete" value="×">
-                        </form><img src="../../../img/key.png" width="18" height="18">' ;
-                        // echo "a";
-                        // $this->Html->image("key.png")
-                    }    
-                } ?>
+                    if ( $ar_kwd[$data_n] == '' ) { //削除キー無
+                        //onsubmitでJavaScriptを呼び出す
+                        
+                        if ($ar_userId[$data_n] == $id || $hasAuth >=1) {
+                            $dlt = '<form action="" method="post" onsubmit="return dltChk()">
+                            <input type="hidden" name="date" value="'.$date.'" />
+                            <input type="hidden" name="user_id" value="'.$ar_userId[$data_n].'" >
+                            <input type="hidden" name="id" value="'.$ar_id[$data_n].'" />
+                            <input type="hidden" name="id" value="'.$hasAuth.'" />
+                            <input type="submit" name="delete" value="×"></form>';
+                        }
+                    } else { //削除キー有
+                        //カギ画像付加
 
-				<td class="exist" <?php echo $block ?> ><?php echo $cts.$dlt ?></td>
-			<?php } ?>
-		<?php } ?>
-	<?php } ?>
+                        if ($ar_userId[$data_n] == $id) {
+                            $dlt = '<form action="" method="post"><input type="hidden" name="date" value="'.$date.'" />
+                            <input type="hidden" name="id" value="'.$ar_id[$data_n].'" />
+                            <input type="hidden" name="user_id" value="'.$ar_userId[$data_n].'" >
+                            <input type="hidden" name="kwd" value="'.$ar_kwd[$data_n].'">
+                            <input type="submit" name="kwd_delete" value="×">
+                            </form><img src="../../../img/key.png" width="18" height="18">' ;
+                            // echo "a";
+                            // $this->Html->image("key.png")
+                        }    
+                    } ?>
+
+                    <td class="exist" <?php echo $block ?> ><?php echo $cts.$dlt ?></td>
+                <?php } ?>
+            <?php } ?>
+	    <?php } ?>
 	</tr>
 <?php } ?>
     </tbody>

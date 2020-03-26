@@ -1,12 +1,3 @@
-<?php
-//echo "this is test";
-foreach ($room as $k) {
-echo "<pre>";
-var_dump($k);
-echo "</pre>";
-}
-?>
-
 <h1 class="page-header">部屋編集</h1>
 <?php 
 echo $this->Form->create($room);

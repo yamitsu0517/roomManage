@@ -6,46 +6,37 @@
         <th>権限</th>
     </tr>
     <?=$this->Form->create($user)?>
-    <?php if ($myId == $user['id']) { ?>
+<?php if ($myId == $user['id']) { ?>
     <tr>
         <td>
-            <?php echo $user['id']?>
+<?php     echo $user['id'];?>
         </td>
         <td class='user_edit'>
-            <?php echo $this->Form->input('name', [
-                'label' => '',
-            ])?>
+<?php     echo $this->Form->input('name', ['label' => '']);?>
         </td>
         <td class='user_edit'>
-            <?php echo $this->Form->input('email',[
-                'label' => ''
-            ])?>
+<?php     echo $this->Form->input('email', ['label' => '']);?>
         </td>
         <td class='user_edit'>
-            <?php echo $this->Form->input('auth', [
-                'label' => '',
-            ])?>
+            <?php echo $this->Form->input('auth', ['label' => '']);?>
         </td>
-    <?php } else { ?>
+<?php } else { ?>
         <td class='user_edit'>
-            <?php echo $user['id']?>
+<?php     echo $user['id'];?>
         </td>
         <td class='user_edit'>
-            <?php echo $user['name']?>
+<?php     echo $user['name'];?>
         </td>
         <td class='user_edit'>
-            <?php echo $user['email']?>
+<?php     echo $user['email'];?>
         </td>
         <td class='user_edit'>
-            <?php echo $this->Form->input('auth', [
-                'label' => '',
-            ])?>
+<?php     echo $this->Form->input('auth', ['label' => '']);?>
         </td>
-        <?php } ?>
+<?php } ?>
         <td>
-            <?=$this->Form->button("更新",[
-                'id' => 'userEdit'
-            ]);?>
+            <?=$this->Form->button("更新",['id' => 'userEdit']);?>
         </td>
     </tr>
-    <?= $this->Form->end()?>
+    <?=$this->Form->end();?>
+</table>

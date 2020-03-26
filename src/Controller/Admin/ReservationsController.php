@@ -9,8 +9,6 @@ class ReservationsController extends AppController {
     
     public function initialize() {
         parent::initialize();
-        // $this->rooms = TableRegistry::get('Rooms');
-        // $this->reservations = TableRegistry::get('Reservations');
     }
 
 

@@ -19,13 +19,11 @@ class ReservationsTable extends Table{
             'foreignKey' => 'user_id',
             'joinType'   => 'INNER'
         ]);
-        // $this->belongsTo('Users');
 
         $this->belongsTo('rooms', [
             'foreignKey' => 'room_id',
             'joinType'   => 'INNER'
         ]);
-        // $this->belongsTo('Rooms');
     }
 
     public function validationDefault(Validator $validator) {

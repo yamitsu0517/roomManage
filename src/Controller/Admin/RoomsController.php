@@ -49,7 +49,7 @@ class RoomsController extends AppController {
                 }
             }
             if ($confirmFlg) {
-                // foreach の中にない->データがない
+                // table の中にない->データがない
                 $textFlg = true;
             }
             if (! $textFlg) return $this->Flash->error(__('部屋名が重複しています。'));
@@ -109,7 +109,7 @@ class RoomsController extends AppController {
     /**
      * @param $room 変更したい内容
      * @param $rooms テーブルデータ
-     * @return boolean, message
+     * @return array
      */
     public function validate($room, $rooms) {
 

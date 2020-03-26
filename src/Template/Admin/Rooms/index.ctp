@@ -10,32 +10,32 @@
         <th colspan='2'>編集</th>
         <?php } ?>
     </tr>
-    <?php $cnt = 1 ?>
-    <?php foreach ($rooms as $room): ?>
-        <?php if ($room->deleted_flg) continue;?>
+<?php $cnt = 1 ?>
+<?php foreach ($rooms as $room): ?>
+<?php     if ($room->deleted_flg) continue;?>
     <tr>
         <td>
-            <?php echo $cnt++?> 
+<?php     echo $cnt++; ?> 
         </td>
         <td>
-            <?php echo $room->name?>
+<?php     echo $room->name?>
         </td>
-        <?php if ($hasAuth) { ?>
+<?php     if ($hasAuth) { ?>
         <td>
-            <?php echo $this->Html->link('編集', ['action' => 'edit', $room->id]);?>
+<?php         echo $this->Html->link('編集', ['action' => 'edit', $room->id]);?>
         </td>
         <td>
-        <?php echo $this->Html->link('削除', ['action' => 'delete', $room->id]);?>
+<?php         echo $this->Html->link('削除', ['action' => 'delete', $room->id]);?>
         </td>
-        <?php } ?>
+<?php     } ?>
     </tr>
-    <?php endforeach; ?>
-    <?php if ($hasAuth) { ?>
+<?php endforeach; ?>
+<?php if ($hasAuth) { ?>
     <tr>
         <td colspan='3'>
-        <?=$this->Html->link('部屋登録', ['action' => 'add'] );?>
+            <?=$this->Html->link('部屋登録', ['action' => 'add'] );?>
         </td>
     </tr>
-    <?php } ?>
+<?php } ?>
 </table>
 
