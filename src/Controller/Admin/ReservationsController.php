@@ -64,7 +64,7 @@ class ReservationsController extends AppController {
         $today = str_replace('-','',$today);
 
         // 今日より前にアクセスしたら、ホームに戻す
-        if (strtotime($today) > strtotime($date)) {
+        if (strtotime($today) > strtotime($date) || strlen($data) != 8) {
             $this->Flash->error(__('選択した日にちは表示出来ません。'));
             return $this->redirect(['controller' => 'Homes', 'action' => 'index']);
         }
