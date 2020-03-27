@@ -1,7 +1,7 @@
 <!-- ログイン後のメニュー画面 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="header-top" role="navigation">
-    <div class="header">
+    <div class="header" style="font-size : ">
         <h2><?= $this->Html->link('部屋管理',['controller' => 'Homes', 'action' => 'index'],['class' => 'navbar-brand']); ?></h2>
     </div>
     <div class="collapse navbar-collapse">
