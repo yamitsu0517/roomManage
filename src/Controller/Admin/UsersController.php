@@ -12,8 +12,9 @@ class UsersController extends AppController {
         $user = $this->Users->get($id);
         $users = $this->Users->find('all');
         $hasAuth = $this->MyAuth->user('auth');
+        $isSp = $this->isSp();
 
-        $this->set(compact('hasAuth', 'user', 'users'));
+        $this->set(compact('hasAuth', 'user', 'users', 'isSp'));
 
         $this->set('edit.js', '/user_edit.js');
         $this->set('getUserData.js', '/getUserData.js');
@@ -44,6 +45,7 @@ class UsersController extends AppController {
         $user = $this->Users->findById($userId)->first();
         $hasAuth = $this->MyAuth->user('auth');
         $myId = $this->MyAuth->user('id');
+        $isSp = $this->isSp();
 
         if ($this->request->is(['patch', 'post', 'put'])) {
 			$user = $this->Users->patchEntity($user, $this->request->data);
@@ -57,7 +59,7 @@ class UsersController extends AppController {
             $this->Flash->error(__('対象のユーザが存在しません'));
 			return $this->redirect(['action' => 'index']);
         }
-        $this->set(compact('user', 'hasAuth', 'myId'));
+        $this->set(compact('user', 'hasAuth', 'myId', 'isSp'));
     }
 
     // Ajax 用のアクション

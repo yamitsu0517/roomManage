@@ -261,8 +261,9 @@ class ReservationsController extends AppController {
                     'result' => 'False',
                     'message' => '目的を記入してください。'
                 );
-            } 
+            }  
 
+            $flg = false;
             // 部屋と時間が被っていないか判定
             if ($add_data['room_id'] == $reservation->room_id) {
                 // 開始時間 <= 予約されている開始時間 && 予約されている開始時間 < 終了時間

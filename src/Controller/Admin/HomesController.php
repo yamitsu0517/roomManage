@@ -10,7 +10,7 @@ class HomesController extends AppController {
         $id =$this->MyAuth->user('id');
         $this->loadModel('users');
         $user = $this->users->findById($id)->first();
-
+        $isSp = $this->isSp();
         // 最初に登録した人に権限を付与する
         if ($id == 1 && $user['auth'] == null) {
             $user['auth'] = 1;
@@ -29,7 +29,7 @@ class HomesController extends AppController {
         $getYear = date('Y');
         $getDate = date('n');
 
-        $this->set(compact('homeMenus', 'auth', 'usr', 'hasAuth'));
+        $this->set(compact('homeMenus', 'auth', 'usr', 'hasAuth', 'isSp'));
     }
 
     function h($str) {

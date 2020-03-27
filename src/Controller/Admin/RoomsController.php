@@ -15,7 +15,8 @@ class RoomsController extends AppController {
         $id =$this->MyAuth->user('id');
         $user = $this->users->findById($id)->first();
         $hasAuth = $user['auth'];
-        $this->set(compact('id', 'hasAuth'));
+        $isSp = $this->isSp();
+        $this->set(compact('id', 'hasAuth', 'isSp'));
 
         $user = $this->users->find('all')
                      ->where(['users.id =' => $id]);
@@ -30,7 +31,8 @@ class RoomsController extends AppController {
         $this->loadModel('rooms');
         $id =$this->MyAuth->user('id');
         $hasAuth = $this->MyAuth->user('auth');
-        $this->set(compact('id', 'hasAuth'));
+        $isSp = $this->isSp();
+        $this->set(compact('id', 'hasAuth', 'isSp'));
 
         $rooms = $this->rooms->find('all');
         $room = $this->Rooms->newEntity();
@@ -69,8 +71,8 @@ class RoomsController extends AppController {
         $hasAuth = $this->MyAuth->user('auth');
         $room = $this->Rooms->findById($room_id)->first();
         $rooms = $this->Rooms->find('all');
-
-        $this->set(compact('hasAuth', 'room'));
+        $isSp = $this->isSp();
+        $this->set(compact('hasAuth', 'room', 'isSp'));
 
         if ($this->request->is('put')) {
 
