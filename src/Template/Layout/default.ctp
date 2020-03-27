@@ -19,6 +19,6 @@ $this->prepend('css', $this->Html->css(['style.css']));
 <?= $this->Html->script('getUserData.js')?>
 <!-- SP 用画面調整 -->
 <!--<meta name="viewport" content="width=device-width,initial-scale=1">-->
-<!--<meta name="viewport" content="width=360,initial-scale=1">-->
+<meta name="viewport" content="width=360,initial-scale=1">
 </body>
 </html>

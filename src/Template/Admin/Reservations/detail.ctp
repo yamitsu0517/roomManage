@@ -12,6 +12,7 @@ $hours_end_date = new DateTime( $date . ' ' . $hours_end ); //終了時間を日
 
 //時間を格納する配列
 $hours = array('0' => '');
+//$hours = [];
 //配列に追加
 array_push($hours, $hours_baff->format('H:i'));
 //設定間隔を足す
@@ -30,7 +31,7 @@ while ( $hours_baff <= $hours_end_date ) {
 <?php
 // パスワードありがクリックされた時表示させる。
 if (isset($_POST['kwd_delete'])) { ?>
-    <div id='confirm_kwd'>";
+    <div id='confirm_kwd'>
       <form method='POST'>
         <p>秘密鍵を入力してください</p>
         <input type='text' name='delete_kwd' autocomplete="off">

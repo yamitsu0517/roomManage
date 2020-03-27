@@ -11,8 +11,10 @@
             </li>
         </ul>
         <ul class="dropdown">
+<?php if (!$isSp) { ?>
             <p class="navbar-text">ようこそ、<?=$auth['name']; ?> さん</p>
             <?php if ($hasAuth) {?><p>(管理者)</p><?php } ?>
+<?php } ?>
             <li class="dropdown-head">
                 <div>
                 <?=$this->Html->link('ユーザ管理', '#', ['data-toggle' => 'dropdown','class' => 'dropdown-toggle'   ])?>
